@@ -1,9 +1,9 @@
 const change_bg_button = document.querySelector('.container__button');
 const word_count_element = document.querySelector('.word__count');
 const letter_count_element = document.querySelector('.letter__count');
+const sentence_count_element = document.querySelector('.sentence__count')
 const text_input = document.querySelector('.text__input');
-const container = document.querySelector('.container');
-const containe_title = document.querySelector('.container__title')
+const bg = document.body
 
 function at_least_two_characters(text) {
     const letters = text.match(/[a-z]/gi) || [];
@@ -25,7 +25,9 @@ const checks = [at_least_two_characters, abscence_of_three_consecutive_character
 text_input.addEventListener('input', () => {
     const splitted = text_input.value.trim().split(/[\s-]/);
     const letter_count = (text_input.value.match(/[a-z]/gi) || []).length;
-    let wordCount = 0;
+    const sentences = text_input.value.trim().split(/[\.\!\?]+/).filter(Boolean);
+
+    let word_count = 0;
 
     outer:
     for (const text of splitted) {
@@ -34,11 +36,12 @@ text_input.addEventListener('input', () => {
                 continue outer;
             }
         }
-        wordCount++;
+        word_count++;
     }
 
-    word_count_element.textContent = wordCount;
+    word_count_element.textContent = word_count;
     letter_count_element.textContent = letter_count;
+    sentence_count_element.textContent = sentences.length;
 });
 
 function randomColor() {
@@ -61,11 +64,5 @@ function hex_to_rgb(hex) {
 
 change_bg_button.addEventListener('click', () => {
     const new_color = randomColor();
-    container.style.backgroundColor = new_color;
-
-    // readable text yay
-    container.style.color = get_text_color(new_color);
-    containe_title.style.color = get_text_color(new_color);
-    word_count_element.style.color = get_text_color(new_color);
-    letter_count_element.style.color = get_text_color(new_color);
+    bg.style.backgroundColor = new_color;
 });
